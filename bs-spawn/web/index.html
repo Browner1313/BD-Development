@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="map-container">
+    <img src="spawnmenu.png" alt="Map" class="map-image" id="map-image" />
+    <div class="spawn-markers" id="spawn-markers">
+      <i class="fas fa-map-marker-alt markerBtn fantastic-plaza" data-location="plaza" data-name="Fantastic Plaza"></i>
+      <i class="fas fa-map-marker-alt markerBtn pacific-bank" data-location="pbank" data-name="Pacific Bank"></i>
+      <i class="fas fa-map-marker-alt markerBtn mirror-park" data-location="mpark" data-name="Mirror Park"></i>
+      <i class="fas fa-map-marker-alt markerBtn sandy" data-location="sandy" data-name="Sandy Motel"></i>
+      <i class="fas fa-map-marker-alt markerBtn paleto" data-location="paleto" data-name="Paleto Bay"></i>
+      <i class="fas fa-map-marker-alt markerBtn policedp" data-location="policedp" data-name="MRPD"></i>
+    </div>
+    <div class="bottom-container">
+      <div class="select-location">
+        <span id="selected-poi" class="select-text">Select a Location</span>
+      </div>
+      <div class="buttons">
+        <button id="last-btn">Last</button>
+        <button id="spawn-btn" disabled>Spawn</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
