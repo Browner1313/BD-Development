@@ -1,0 +1,20 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#character-menu {
+    text-align: center;
+}
+
+.character {
+    margin: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
