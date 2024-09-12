@@ -1,32 +1,25 @@
 fx_version 'cerulean'
 game 'gta5'
-lua54 'yes'
 
+author 'BS Scripts'
+description 'Petty Crime script'
 version '1.0.0'
 
--- Define dependencies
+-- List of server scripts
+server_scripts {
+  'server.lua',
+  'config.lua'
+}
+
+-- List of client scripts
+client_scripts {
+  'client.lua',
+  'config.lua'
+}
+
+-- Dependencies
 dependencies {
-  'qs-inventory',
-  'ox_lib',
-}
-
--- Define client and server scripts
-client_script {
-  'client/*.lua',
-}
-
-server_script {
-  'server/*.lua',
-}
-
--- Shared scripts
-shared_scripts {
-  'config/*.lua',
-}
-
--- Ignore files for escrow
-escrow_ignore {
-  'config/*.lua',
-  'client/*.lua',
-  'server/*.lua',
+  'qb-core',
+  'qb-target',
+  'qs-inventory'
 }

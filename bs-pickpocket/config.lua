@@ -1,18 +1,16 @@
 Config = {}
 
--- Items required for pickpocketing
+-- Items the player must have to perform the pickpocket
 Config.RequiredItems = {
-  "knife",
+    'weapon_switchblade'  -- Example: player must have a lockpick
 }
 
--- Pickpocketing success rate (0 to 1)
-Config.SuccessRate = 0.5
-
--- Possible items to steal
-Config.PickpocketItems = {
-  "money",
-  "casinochips",
-  "wallet",
-  "painkillers",
-  "rolex"
+-- Rewards for pickpocketing
+Config.PickpocketRewards = {
+    'lockpick',  -- Random item 1
+    'money',     -- Random item 2
+    'phone',     -- Random item 3
 }
+
+-- Interaction distance for third-eye (qb-target)
+Config.InteractionDistance = 2.0
