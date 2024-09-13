@@ -1,48 +1,82 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
--- Event that handles giving an item when pickpocketing
-RegisterNetEvent('bs-pickpocket:giveItem')
-AddEventHandler('bs-pickpocket:giveItem', function(itemName)
-    local src = source -- The player ID who triggered the event
-    local xPlayer = QBCore.Functions.GetPlayer(src) -- Fetch the player object
+-- Define the possible rewards and their probabilities for non-fat peds
+local rewards = {
+    {item = 'money', amount = 5,  probability = 10}, 
+    {item = 'money', amount = 10, probability = 10}, 
+    {item = 'money', amount = 15, probability = 10}, 
+    {item = 'money', amount = 20, probability = 10}, 
+    {item = 'money', amount = 25, probability = 10}, 
+    {item = 'money', amount = 30, probability = 10},
+    {item = 'money', amount = 35, probability = 10},
+    {item = 'money', amount = 40, probability = 10},
+    {item = 'weed_skunk_joint', amount = 1, probability = 15},
+    {item = 'gold_watch',        amount = 1, probability = 5}
+}
 
-    -- Check if the player has the required weapon (weapon_switchblade) to ensure they didn't bypass the client check
-    local hasWeapon = false
-    for _, item in pairs(xPlayer.PlayerData.items) do
-        if item.name == 'weapon_switchblade' then
-            hasWeapon = true
-            break
+-- Function to get a random reward based on probabilities for non-fat peds
+local function getRandomReward()
+    local randomNumber = math.random(100)
+    local cumulativeProbability = 0
+
+    for _, reward in ipairs(rewards) do
+        cumulativeProbability = cumulativeProbability + reward.probability
+        if randomNumber <= cumulativeProbability then
+            return reward
         end
     end
 
-    if hasWeapon then
-        -- Validate if the player object exists and the itemName is valid
-        if xPlayer and itemName then
-            -- Convert itemName to lowercase to match how items are stored in QBCore
-            local itemInfo = QBCore.Shared.Items[itemName:lower()]
+    return nil -- Default case, should never reach here if probabilities sum to 100
+end
 
+-- Event that handles giving an item when pickpocketing
+RegisterNetEvent('bs-pickpocket:giveItem')
+AddEventHandler('bs-pickpocket:giveItem', function(item)
+    local src = source
+    local xPlayer = QBCore.Functions.GetPlayer(src)
+
+    if xPlayer then
+        -- If a specific item is provided (for fat peds)
+        if item then
+            local itemInfo = QBCore.Shared.Items[item:lower()]
             if itemInfo then
-                -- Try adding the item to the player's inventory
-                local success = xPlayer.Functions.AddItem(itemName, 1)
+                local success = xPlayer.Functions.AddItem(item, 1)
                 if success then
-                    -- Notify the player on successful item reception
-                    TriggerClientEvent('QBCore:Notify', src, 'You successfully pickpocketed and received ' .. itemName .. '!', 'success')
+                    TriggerClientEvent('QBCore:Notify', src, 'You have successfully pickpocketed and got ' .. item .. '!', 'success')
                 else
-                    -- Notify the player if adding the item failed (inventory full or other reason)
                     TriggerClientEvent('QBCore:Notify', src, 'You couldn\'t pickpocket. Inventory full?', 'error')
                 end
             else
-                -- Notify if the item name is invalid in QBCore's shared items
                 TriggerClientEvent('QBCore:Notify', src, 'Invalid item!', 'error')
-                print("[bs-pickpocket] Invalid item: " .. itemName)
+                print("[bs-pickpocket] Invalid item: " .. item)
             end
         else
-            -- Notify if something went wrong with the player or itemName
-            print("[bs-pickpocket] Failed to fetch player or item.")
+            -- If no item is specified, it's a non-fat ped, and give random reward
+            local reward = getRandomReward()
+
+            if reward then
+                if reward.item == 'money' then
+                    xPlayer.Functions.AddMoney('cash', reward.amount)
+                    TriggerClientEvent('QBCore:Notify', src, 'You have successfully pickpocketed someone and got $' .. reward.amount .. '!', 'success')
+                else
+                    local itemInfo = QBCore.Shared.Items[reward.item:lower()]
+                    if itemInfo then
+                        local success = xPlayer.Functions.AddItem(reward.item, reward.amount)
+                        if success then
+                            TriggerClientEvent('QBCore:Notify', src, 'You have successfully pickpocketed someone and got a ' .. reward.item .. '!', 'success')
+                        else
+                            TriggerClientEvent('QBCore:Notify', src, 'You couldn\'t pickpocket. Inventory full?', 'error')
+                        end
+                    else
+                        TriggerClientEvent('QBCore:Notify', src, 'Invalid item!', 'error')
+                        print("[bs-pickpocket] Invalid item: " .. reward.item)
+                    end
+                end
+            else
+                print("[bs-pickpocket] No reward could be determined.")
+            end
         end
     else
-        -- Notify the player if they don't have the required weapon (this is an additional security check)
-        TriggerClientEvent('QBCore:Notify', src, 'You don\'t have the required weapon (Switchblade) to pickpocket!', 'error')
-        print("[bs-pickpocket] Player without the required weapon tried to pickpocket.")
+        print("[bs-pickpocket] Failed to fetch player.")
     end
 end)

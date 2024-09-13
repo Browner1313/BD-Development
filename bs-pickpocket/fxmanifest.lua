@@ -7,14 +7,12 @@ version '1.0.0'
 
 -- List of server scripts
 server_scripts {
-  'server.lua',
-  'config.lua'
+  'server.lua'
 }
 
 -- List of client scripts
 client_scripts {
-  'client.lua',
-  'config.lua'
+  'client.lua'
 }
 
 -- Dependencies
