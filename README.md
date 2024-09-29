@@ -1,8 +1,8 @@
 # Browner_scripts
 This Repo is full of my open-source scripts I have created or am currently working for the FiveM Framework.
 
-Please use these and edit as you'd like, but please do not redistribute.
+Download the Zip and take the ones you like! Delete the ones you dont!
 
-Any questions or concerns, join the discord!
+Any questions, concern, or wanted features, join the discord!
 
 https://discord.gg/ySRJae38
