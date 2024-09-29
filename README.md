@@ -4,3 +4,5 @@ This Repo is full of my open-source scripts I have created or am currently worki
 Please use these and edit as you'd like, but please do not redistribute.
 
 Any questions or concerns, join the discord!
+
+https://discord.gg/ySRJae38
