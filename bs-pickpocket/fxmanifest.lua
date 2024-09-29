@@ -5,19 +5,8 @@ author 'BS Scripts'
 description 'Petty Crime script'
 version '1.0.0'
 
--- List of server scripts
-server_scripts {
-  'server.lua'
-}
-
--- List of client scripts
+shared_script 'config.lua' -- This makes the Config available to all other scripts
 client_scripts {
-  'client.lua'
+    'client/client.lua',
 }
-
--- Dependencies
-dependencies {
-  'qb-core',
-  'qb-target',
-  'qs-inventory'
-}
+server_script 'server/server.lua'
