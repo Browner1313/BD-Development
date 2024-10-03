@@ -23,12 +23,11 @@ server_scripts {
     'server/main.lua'
 }
 
--- Required dependencies (if using any, such as oxmysql)
--- dependency 'oxmysql'
+-- Required dependencies 
+ dependency 'oxmysql'
 
 -- Additional meta files if needed
 files {
-    -- If you're using any additional data files (like vehicle models, etc.), list them here.
 }
 
 

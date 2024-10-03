@@ -22,7 +22,7 @@ Config.BoatRentalNPC = {
   rentalItems = {},
   requiredXP = 800,
   animation = {
-    scenario = "amb@world_human_leaning@male@wall@back@foot_up@idle_a",
+    scenario = "WORLD_HUMAN_CLIPBOARD",
     loop = true
   }
 }
@@ -47,19 +47,5 @@ Config.FishTiers = {
  }
 }
 
-Config.ProgressionTiers = {
-  [1] = {
-    xpNeeded = 100, 
-    unlockItems = { 'advanced_reel' },
-},
-  [2] = {
-    xpNeeded = 300, 
-    unlockItems = { 'deep_sea_rod' },
-},
-  [3] = {
-    xpNeeded = 1000, 
-    unlockBoats = { { name = 'tug', displayName = 'Deep Sea Boat', price = 3000 } }
- }
-}
 
 Config.IntitialXP = 0

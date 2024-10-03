@@ -1,6 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-
 local function spawnFishingGearNPC()
     local pedModel = GetHashKey(Config.FishingGearNPC.pedModel)
     RequestModel(pedModel)
@@ -14,22 +13,35 @@ local function spawnFishingGearNPC()
 
     SetEntityInvincible(npc, true)
     FreezeEntityPosition(npc, true)
-    SetBlockingOfNonTemporaryEvents(npc, true)  
-    SetPedFleeAttributes(npc, 0, false)  
+    SetBlockingOfNonTemporaryEvents(npc, true)
+    SetPedFleeAttributes(npc, 0, false)
     SetPedCombatAttributes(npc, 46, true)
+
     
     exports['qb-target']:AddTargetEntity(npc, {
         options = {
             {
                 type = "client",
-                event = "fishing:openStore",  
+                event = "fishing:openFishingGearStore",
                 icon = "fas fa-shopping-cart",
-                label = "Open Fishing Gear Store",
+                label = "Buy Fishing Gear",
             }
         },
         distance = 2.5  
     })
 end
+
+
+
+
+RegisterNetEvent('bd-fishing:openFishingGearStore')
+AddEventHandler('bd-fishing:openFishingGearStore', function()
+TriggerEvent('ox:openInventory', 'shop', 'FishingGearNPC')
+    print("Attempting to open the Fishing Gear Shop...")
+end)
+
+
+
 
 
 local function spawnBoatRentalNPC()
@@ -45,15 +57,14 @@ local function spawnBoatRentalNPC()
 
     SetEntityInvincible(npc, true)
     FreezeEntityPosition(npc, true)
-    SetBlockingOfNonTemporaryEvents(npc, true)  
+    SetBlockingOfNonTemporaryEvents(npc, true)
     SetPedFleeAttributes(npc, 0, false)
     SetPedCombatAttributes(npc, 46, true)
-
-    
-    local animation = Config.BoatRentalNPC.animation
-    TaskStartScenarioInPlace(npc, animation.scenario, 0, animation.loop)
+    SetPedDefaultComponentVariation(npc)  
+    TaskStartScenarioInPlace(npc, "WORLD_HUMAN_CLIPBOARD", 0, true)  
 
 
+    -- Set up qb-target for the Boat Rental store
     exports['qb-target']:AddTargetEntity(npc, {
         options = {
             {
@@ -63,14 +74,33 @@ local function spawnBoatRentalNPC()
                 label = "Talk to Angler",
             }
         },
-        distance = 2.5  
+        distance = 2.5  -- Interaction distance
     })
 end
 
+-- Event to open the Fishing Gear Shop
+RegisterNetEvent('fishing:openFishingGearStore')
+AddEventHandler('fishing:openFishingGearStore', function()
+    print("Attempting to open the Fishing Gear Shop...")
+    exports.ox_inventory:openInventory('shop', { id = 'fishing_gear_shop' })
+end)
 
-AddEventHandler('onClientResourceStart', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        spawnFishingGearNPC()
-        spawnBoatRentalNPC()
-    end
+
+RegisterNetEvent('fishing:checkBoatProgression')
+AddEventHandler('fishing:checkBoatProgression', function()
+    QBCore.Functions.TriggerCallback('bd-fishing:getPlayerXP', function(xp)
+        if xp >= Config.BoatRentalNPC.requiredXP then
+            -- Player has enough XP, open the Boat Rental store
+            exports.ox_inventory:openInventory('shop', { type = 'General', id = 2 })  
+        else
+            -- Not enough XP, notify the player
+            QBCore.Functions.Notify("Were not meant to talk yet.", "error")
+        end
+    end)
+end)
+
+
+Citizen.CreateThread(function()
+    spawnFishingGearNPC()
+    spawnBoatRentalNPC()  
 end)
