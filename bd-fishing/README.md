@@ -10,4 +10,4 @@ An immersive and complex fishing script!
 
 # Dependencies
 - qb-core
-- 
+- ox_target
