@@ -21,7 +21,7 @@ function getRandomReward()
     end
 
     DebugPrint("No reward determined - check probability settings.")
-    return nil -- Default case, should never reach here if probabilities sum to 100
+    return nil
 end
 
 -- Event that handles giving an item when pickpocketing
@@ -31,7 +31,6 @@ AddEventHandler('bs-pickpocket:giveItem', function(item)
     local xPlayer = QBCore.Functions.GetPlayer(src)
 
     if xPlayer then
-        -- If a specific item is provided (for fat peds)
         if item then
             local itemInfo = QBCore.Shared.Items[item:lower()]
             if itemInfo then
@@ -48,7 +47,6 @@ AddEventHandler('bs-pickpocket:giveItem', function(item)
                 DebugPrint("Invalid item: " .. item)
             end
         else
-            -- If no item is specified, it's a non-fat ped, and give random reward
             local reward = getRandomReward()
 
             if reward then
