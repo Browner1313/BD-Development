@@ -1,6 +1,10 @@
 Config = {}
 
-Config.Companies = {
+Config.UseRealisticMarket = false --Set to true if you want to let in game events determine price fluctuation. Setting to false is RNG prices.
+
+--Config.RealisticMarket {} --Add what you want in this table
+
+Config.RNGCompanies = {
     -- Technology
     { name = "CodeCore Inc.", abbreviation = "CCOR", sector = "Technology", basePrice = 120, volatility = 1.5 },
     { name = "ByteForge Solutions", abbreviation = "BYTF", sector = "Technology", basePrice = 110, volatility = 1.4 },

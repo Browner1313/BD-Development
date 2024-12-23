@@ -1,7 +1,7 @@
 local stockPrices = {}
 
 Citizen.CreateThread(function ()
-    for _, company in ipairs(Config.Companies) do
+    for _, company in ipairs(Config.RNGCompanies) do
         stockPrices[company.abbreviation] = {
             name = company.name,
             sector = company.sector,
